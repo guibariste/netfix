@@ -1,0 +1,50 @@
+{% extends 'main/base.html' %}
+{% block title %}
+    User Profile
+{% endblock %}
+
+{% block content %}
+
+    {% if user.is_customer %}
+        <div style="display: ruby;">
+            <h1>{{ user.username }} ({{user_age}} y/o)</h1>
+            <p>{{ user.email }}</p>
+            <p style="float: right;">Customer</p>
+        </div>
+    {% else %}
+        <div style="display: ruby;">
+            <h1>{{ user.username }}</h1>
+            <p> {{ user.email }}</p>
+             <p style="float: right;"> Company : {{user_company}}</p> 
+        </div>
+       {% endif %}
+    {% if 'customer' in request.path %}
+        <p class="title">Previous Requested Services</p>
+    {% comment %} {% else %}
+        <p class="title">Available Services</p> {% endcomment %}
+    {% endif %}
+    {% if user.is_customer %}
+    {% for service_requests in service_request %}
+            <div>
+                <a href="/services/{{service_requests.service_id}}">{{service_requests.service_name}}</a> ({{service_requests.field}})
+                <p style="margin: 0; display: inline-block;"> ❱❱ {{service_requests.total_price}} euros</p>
+                <p style="margin: 0; display: inline-block;"> ❱❱ {{ service_requests.date }}</p>
+                <p style="float: right; margin: 0;">
+                    by <a href="/company/{{service_requests.name_company}}">{{service_requests.name_company}}</a>
+                </p> 
+            </div>
+            <div class="line"></div>
+        {% endfor %}
+        {% endif %} 
+        {% if 'company' in request.path %}
+        <p class="title">Available Services</p> 
+        
+        {% for service in services %}
+        <div class="list_services_profile">
+            <a href="/services/{{service.id}}">{{service.name}}</a>-- {{service.price_hour}}€/hour
+            <div class="line"></div>
+        </div>
+        
+        {% endfor %}
+    {% endif %} 
+{% endblock %}
