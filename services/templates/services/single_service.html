@@ -1,0 +1,16 @@
+{% extends 'main/base.html' %}
+{% block title %}
+    {{ service.name }}
+{% endblock %}
+{% block content %}
+    <div class='service_info_header'>
+        <h1>{{service.name}} -- {{service.price_hour}}€/hour</h1>
+        <h5>by <a href="/company/{{service.name_company}}">{{service.name_company}}</a></h5>
+        {% comment %} mettre le lien vers le profil de l'entreprise {% endcomment %}
+    </div>
+    <h3>{{service.field}}</h3>
+    <p style="text-align: left;">{{service.description}}</p>
+    {% if request.user.is_customer %}
+        <a href="/services/{{service.id}}/request_service/" class="like_button">Request Service</a>
+    {% endif %}
+{% endblock %}

@@ -1,0 +1,13 @@
+{% extends 'main/base.html' %}
+{% block title %}
+    {{field}} create service
+{% endblock %}
+{% block content %}
+
+<form method="post">
+    {% csrf_token %}
+    {{ form }}
+    
+    <button type="submit">Valider</button>
+  </form> 
+{% endblock %}
